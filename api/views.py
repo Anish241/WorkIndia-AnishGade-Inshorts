@@ -113,7 +113,11 @@ class SearchAndFilter(APIView):
         elif search.get('author'):
             search_results = Shorts.objects.filter(author__icontains=search.get('author'))
         final_results = list(set(shorts) & set(search_results))
-
+        if not final_results:
+            Response ({
+                "status": "No short matches your search criteria",
+                "status_code": 400
+            })
         return Response({
             final_results
         })
